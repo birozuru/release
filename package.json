@@ -1,0 +1,21 @@
+{
+    "name": "scripts",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+      "test": "jest",
+      "start": "node app.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+    },
+    "engines": {
+      "node": "16.x"
+    },
+    "devDependencies": {
+      "jest": "^29.6.1"
+    }
+  }
