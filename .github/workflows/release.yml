@@ -3,6 +3,26 @@ name: Codacy Analysis CLI
 on: ["push"]
 
 jobs:
+  lint:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@main
+      - name: Run lint
+        run: |
+          npm install
+          npm run lint
+#   code-signing:
+#     name: Code Signing
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@main
+#       - name: Run code signing
+#         run: |
+#           npm install
+#           npm run code-signing 
   codacy-analysis-cli:
     name: Codacy Analysis CLI
     runs-on: ubuntu-latest
@@ -23,3 +43,16 @@ jobs:
           # Force 0 exit code to allow SARIF file generation
           # This will hand over control about PR rejection to the GitHub side
           max-allowed-issues: 2147483647
+  publish-artefact:
+    name: Publish Artefact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@main
+    
+      - name: Step 3 - Use the Upload Artifact GitHub Action
+        uses: actions/upload-artifact@v2
+        with: 
+          name: assets-for-download
+          path: ./
+
