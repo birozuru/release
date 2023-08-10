@@ -9,6 +9,7 @@ on:
 
 jobs:
   codacy-security-scan:
+    permissions: write-all
     name: Codacy Security Scan
     runs-on: ubuntu-latest
     steps:
