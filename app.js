@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-// program for a simple calculator
+// program for a simple calculatorr
 let result;
 
 // take the operator input
