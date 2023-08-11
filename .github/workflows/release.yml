@@ -68,6 +68,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: README.md
+          tag_name: ${{ github.ref_name }}.v${{ github.run_number }}
           # upload_url: #${{ steps.create_release.outputs.upload_url }}
           #asset_path: ${{ github.workspace }}/*.tgz
           #asset_name: assets-for-download
