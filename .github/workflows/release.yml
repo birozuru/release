@@ -63,14 +63,15 @@ jobs:
           name: assets-for-download
 
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/*.tgz
-          asset_name: assets-for-download
-          asset_content_type: application/gzip
+          files: README.md
+          # upload_url: #${{ steps.create_release.outputs.upload_url }}
+          #asset_path: ${{ github.workspace }}/*.tgz
+          #asset_name: assets-for-download
+          #asset_content_type: application/gzip
 
 #   publish-artefact:
 #     name: Publish Artefact
