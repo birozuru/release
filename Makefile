@@ -1,6 +1,6 @@
 build:
 	npm init -y
-	npm install -g --save-dev unsafe-perm=true allow-root
+	npm install --save-dev -g unsafe-perm=true allow-root
 	npm run lint
 
 publish:
