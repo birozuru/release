@@ -56,18 +56,18 @@ jobs:
           tag: ${{ github.ref_name }}.v${{ github.run_number }}
           commit: ${{ github.sha }}
 
-    #   - name: Download artifact
-    #     uses: actions/download-artifact@v2
-    #     with:
-    #       name: assets-for-download
-    #       path: ${{ github.workspace }}
+      - name: Download artifact
+        id: download-artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: assets-for-download
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.download-artifact.outputs.download-path }}
           asset_path: ${{ github.workspace }}
           asset_name: assets-for-download
           asset_content_type: application/gzip
