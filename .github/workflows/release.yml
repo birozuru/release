@@ -53,7 +53,7 @@ jobs:
           draft: false
           prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref_name }}#v
+          tag: ${{ github.ref_name }}.v${{ github.run_number }}
           commit: ${{ github.sha }}
 
     #   - name: Download artifact
