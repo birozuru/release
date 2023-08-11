@@ -1,2 +1,2 @@
 ### CHANGELOG
-Latest change to v1.0.1
+Latest change to v1.0.2
