@@ -1,10 +1,12 @@
 name: CI Release
 
 on: 
-    push:
-        tags:
-            - 'v*'
-    workflow_dispatch:
+    # push:
+    #     branches:
+    #         - feature/*
+    #     tags:
+    #         - '*'
+    # workflow_dispatch:
     pull_request:
         types: [closed]
         branches: [main]
@@ -39,73 +41,51 @@ jobs:
         uses: actions/upload-artifact@v3
         with: 
           name: assets-for-download
-          path: ${{ github.workspace }}/${{ steps.package.outputs.package_path}}
+          path: ${{ github.workspace }}/*.tgz
+
+      - name: action-release-label
+        id: release-label
+        uses: actions-ecosystem/action-release-label@v1
+        if: ${{ github.event.pull_request.merged == true }}
+        
+      - name: action-get-latest-tag
+        id: get-latest-tag
+        uses: actions-ecosystem/action-get-latest-tag@v1
+        if: ${{ steps.release-label.outputs.level != null }}
+
+      - name: action-bump-semver
+        id: bump-semver
+        uses: actions-ecosystem/action-bump-semver@v1
+        if: ${{ steps.release-label.outputs.level != null }}
+        with:
+          current_version: ${{ steps.get-latest-tag.outputs.tag }}
+          level: ${{ steps.release-label.outputs.level }}
+
+      - name: action-push-tag
+        id: push-tag
+        uses: actions-ecosystem/action-push-tag@v1
+        if: ${{ steps.bump-semver.outputs.new_version != null }}
+        with:
+          tag: ${{ steps.bump-semver.outputs.new_version }}
+          message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
 
       - name: Create Release
+        if: ${{ steps.release-label.outputs.level == 'major' || steps.release-label.outputs.level == 'minor' }}
         uses: ncipollo/release-action@v1
         id: create_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag: ${{ github.ref }}
-          name: Release ${{ github.ref }}.${GITHUB_REF#refs/tags/}
           bodyFile: ${{ github.workspace }}/CHANGELOG.md
           draft: false
           prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.bump-semver.outputs.new_version }}
+          commit: ${{ github.sha }}
+          artifacts: "CHANGELOG.md, README.md, ${{ github.workspace }}/*.tgz"
 
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: assets-for-download
-          path: ${{ github.workspace }}
-
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/*.tgz
-          asset_name: assets-for-download
-          asset_content_type: application/gzip
-
-#   publish-artefact:
-#     name: Publish Artefact
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@main
-    
-#       - name: Step 3 - Use the Upload Artifact GitHub Action
-#         uses: actions/upload-artifact@v2
-#         with: 
-#           name: assets-for-download
-#           path: .
-
-#   release: 
-#     runs-on: ubuntu-latest
-#     steps:
-#         - name: Checkout code
-#           uses: actions/checkout@v2
-
-#         - uses: actions-ecosystem/action-release-label@v1
-#           id: release-label
-#           if: ${{ github.event.pull_request.merged == true }}
-
-#         - uses: actions-ecosystem/action-get-latest-tag@v1
-#           id: get-latest-tag
-#           if: ${{ steps.release-label.outputs.level != null }}
-
-#         - uses: actions-ecosystem/action-bump-semver@v1
-#           id: bump-semver
-#           if: ${{ steps.release-label.outputs.level != null }}
-#           with:
-#             current_version: ${{ steps.get-latest-tag.outputs.tag }}
-#             level: ${{ steps.release-label.outputs.level }}
-
-#         - uses: actions-ecosystem/action-push-tag@v1
-#           if: ${{ steps.release-label.outputs.level != null }}
-#           with:
-#             tag: ${{ steps.bump-semver.outputs.new_version }}
-#             message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
+    #   - name: Download artifact
+    #     id: download-artifact
+    #     uses: actions/download-artifact@v3
+    #     with:
+    #       name: assets-for-download
