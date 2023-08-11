@@ -1,7 +1,8 @@
 build:
 	npm init -y
+	npm install --save-dev
 	npm run lint
-	npm install 
+
 
 
 publish:
