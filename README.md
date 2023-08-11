@@ -1,2 +1,2 @@
 # release
-test release processs
+test release process

@@ -1,6 +1,4 @@
-const dotenv = require('dotenv');
 
-dotenv.config();
 
 // program for a simple calculatorr
 let result;

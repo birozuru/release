@@ -1,17 +1,22 @@
-name: Codacy Analysis CLI
+name: CI Release
 
 on: 
+    push:
+    workflow_dispatch:
     pull_request:
         types: [closed]
         branches: [main]
 
 jobs:
-  lint:
+  build:
     name: Static Analysis
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
     steps: 
       - name: Checkout code
         uses: actions/checkout@main
+        
       - name: Run lint
         run: |
           npm install
@@ -29,7 +34,7 @@ jobs:
         with: 
           name: assets-for-download
           path: ./
-          
+
   release: 
     runs-on: ubuntu-latest
     steps:
