@@ -57,7 +57,6 @@ jobs:
           prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
 
-
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
