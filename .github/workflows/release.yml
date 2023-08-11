@@ -56,11 +56,11 @@ jobs:
           tag: ${{ github.ref_name }}.v${{ github.run_number }}
           commit: ${{ github.sha }}
 
-    #   - name: Download artifact
-    #     id: download-artifact
-    #     uses: actions/download-artifact@v3
-    #     with:
-    #       name: assets-for-download
+      - name: Download artifact
+        id: download-artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: assets-for-download
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
@@ -68,7 +68,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/*.tgz
+          asset_path: ${{ github.workspace }}/${{ steps.download-artifact.outputs.download-path }}}
           asset_name: assets-for-download
           asset_content_type: application/gzip
 
