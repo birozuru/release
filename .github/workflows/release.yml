@@ -16,7 +16,7 @@ jobs:
     steps: 
       - name: Checkout code
         uses: actions/checkout@main
-        
+
       - name: Run lint
         run: |
           npm install
@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with: 
           name: assets-for-download
-          path: ./
+          path: .
 
   release: 
     runs-on: ubuntu-latest
