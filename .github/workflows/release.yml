@@ -48,11 +48,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag: ${{ github.ref }}
-          name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-            - Added feature 1
-            - Added feature 2
+          name: Release ${{ github.ref }}.${GITHUB_REF#refs/tags/}
+          bodyFile: ${{ github.workspace }}/CHANGELOG.md
           draft: false
           prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
