@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with: 
           name: assets-for-download
-          path: ${{ github.workspace }}/${{ steps.package.outputs.package_path}}
+          path: ${{ github.workspace }}/*.tgz
 
       - name: Create Release
         uses: ncipollo/release-action@v1
@@ -68,7 +68,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/${{ steps.package.outputs.package_path}}
+          asset_path: ${{ github.workspace }}/*.tgz
           asset_name: assets-for-download
           asset_content_type: application/gzip
 
