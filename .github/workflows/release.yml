@@ -52,6 +52,9 @@ jobs:
         id: release-label
         uses: actions-ecosystem/action-release-label@v1
         if: ${{ steps.get-merged-pull-request.outputs.title != null }}
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            labels: 'major, minor, patch'
         
       - name: action-get-latest-tag
         id: get-latest-tag
