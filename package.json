@@ -14,7 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "makefile-for-js": "^0.0.6"
+    "makefile-for-js": "^0.0.6",
+    "prompt-sync": "^4.2.0"
   },
   "engines": {
     "node": "16.x"

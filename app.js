@@ -1,5 +1,8 @@
 // program for a simple calculatorr
 let result;
+const console = require('console');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const prompt = require('prompt-sync')();
 
 // take the operator input
 const operator = prompt('Enter operator ( either +, -, * or / ): ');
