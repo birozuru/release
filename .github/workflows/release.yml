@@ -2,12 +2,14 @@ name: CI Release
 
 on: 
     push:
+        branches:
+            - feature/*
         tags:
-            - 'v*'
-    workflow_dispatch:
-    pull_request:
-        types: [closed]
-        branches: [main]
+            - '*'
+    # workflow_dispatch:
+    # pull_request:
+    #     types: [closed]
+    #     branches: [main]
 
 jobs:
   build:
